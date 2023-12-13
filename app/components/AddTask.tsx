@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import { addTodo } from "@/api";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from 'uuid';
+import PriorityOptions from "./PriorityOptions";
 
 const AddTask = () => {
     const router = useRouter();
@@ -51,15 +52,7 @@ const AddTask = () => {
             <h3 className="font-bold text-lg">Add new task</h3>
             <div>
               {/* Priority selection */}
-              <p>Priority</p>
-              <ul className="menu bg-base-200 w-56 p-0 [&_li>*]:rounded-none">
-                <details open>
-                  <summary>Priority</summary>
-                    <li><a><span>High Priority</span></a></li>
-                    <li><a><span>Normal Priority</span></a></li>
-                    <li><a><span>Low Priority</span></a></li>
-                </details>
-              </ul>
+              <PriorityOptions setPriority={setNewPriority} />
             </div>
             <div className="">
               <p>Title</p>

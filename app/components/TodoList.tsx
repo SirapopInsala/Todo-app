@@ -1,6 +1,5 @@
 import { ITask } from "@/types/task"
 import Task from "./Task"
-import DoneTask from "./DoneTask";
 
 interface TodoListProps {
     tasks: ITask[]
@@ -23,7 +22,7 @@ const TodoList: React.FC<TodoListProps> = ({ tasks }) => {
           </tr>
         </thead>
         {/* Table body for Todo Tasks */}
-        <tbody className="block">
+        <tbody className="block border-none bg-rose-500 text-white">
             {/* Map through "Todo" tasks and render each Task component */}
             {todoTasks.map((task) => (
               <Task key={task.id} task={task} />
@@ -36,13 +35,11 @@ const TodoList: React.FC<TodoListProps> = ({ tasks }) => {
           </tr>
         </thead>
         {/* Table body for Done Tasks */}
-        <tbody className="block">
+        <tbody className="block border-none bg-green-500 text-white">
             {/* Map through "Done" tasks and render each Task component */}
             {doneTasks.map((task) => (
               <Task key={task.id} task={task} />
             ))}
-            {/* Example of rendering a DoneTask component (you can replace it with your actual DoneTask component) */}
-            <DoneTask />
         </tbody>
       </table>
     </div>
