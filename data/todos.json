@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "text": "Go and get Christmas presents for Lana and Sandra",
+      "title": "Buy Presents",
+      "priority": "High Priority"
+    },
+    {
+      "id": "2",
+      "text": "Eggs, bacon, milk, frozen yogurt, sweets",
+      "title": "Go To The Store",
+      "priority": "High Priority"
+    },
+    {
+      "id": "3",
+      "text": "Walk a minimum of 3km today",
+      "title": "Go For A Walk",
+      "priority": "Normal Priority"
+    }
+  ]
+}
