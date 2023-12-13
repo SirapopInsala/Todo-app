@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+This app is not yet complete. There are still incomplete parts such as the function to check the priority and the function to check the task when it done. And I don't know how to use Hasura.
+
 ## Getting Started
 
 First, run the development server:
