@@ -17,9 +17,7 @@ const AddTask = () => {
     const [newDone, setNewDone] = useState<boolean>(false);
 
     // Form submission handler
-    const handleSubmitNewTodo: FormEventHandler<HTMLFormElement> = 
-    async (e) => {
-        e.preventDefault();
+    const handleSubmitNewTodo: FormEventHandler<HTMLFormElement> = async (e) => {e.preventDefault();
         // Add new task using the addTodo function from the API
         await addTodo({
           id: uuidv4(),
@@ -31,16 +29,16 @@ const AddTask = () => {
         // Reset form input values
         setNewTaskValue("");
         setNewTitle("");
-        setNewPriority("");
+        setNewPriority('');
         // Close the modal
         setModalOpen(false);
-        setNewDone(false);
+        setNewDone(newDone);
         router.refresh(); // Refresh the page using Next.js router
     };
     return (
     <div>
         {/* Button to trigger the modal */}
-        <button onClick={() => setModalOpen(true)} className="btn btn-active btn-primary text-white mr-auto">
+        <button onClick={() => setModalOpen(true)} className="flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           {/* Icon for the "New Task" button */}
           <CiCirclePlus className='ml-2'size={25} />
           NEW TASK
@@ -49,21 +47,23 @@ const AddTask = () => {
         <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
           {/* Form for adding a new task */}
           <form onSubmit={handleSubmitNewTodo}>
-            <h3 className="font-bold text-lg">Add new task</h3>
-            <div>
+            <h3 className="font-bold text-lg text-center text-black">Add new task</h3>
+            <div className="mb-5">
               {/* Priority selection */}
               <PriorityOptions setPriority={setNewPriority} />
             </div>
-            <div className="">
+            <div className="mb-5 text-black">
               <p>Title</p>
-              <input value={newTitle} onChange={e => setNewTitle(e.target.value)} type="title" placeholder="Type here" className="input input-bordered w-full" />
+              <input value={newTitle} onChange={e => setNewTitle(e.target.value)} type="title" placeholder="Type here" className="input input-bordered w-full bg-white" />
             </div>
-            <div className="">
+            <div className="mb-5 text-black">
               <p>Description</p>
-              <input value={newTaskValue} onChange={e => setNewTaskValue(e.target.value)} type="text" placeholder="Type here" className="input input-bordered w-full" />
+              <input value={newTaskValue} onChange={e => setNewTaskValue(e.target.value)} type="text" placeholder="Type here" className="input input-bordered w-full bg-white" />
             </div>
-            {/* Submit button */}
-            <button type="submit" className="btn">Submit</button>
+            <div className="flex justify-center items-center">
+              {/* Submit button */}
+              <button type="submit" className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+            </div>           
           </form>
         </Modal>
     </div>

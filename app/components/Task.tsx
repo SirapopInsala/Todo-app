@@ -23,13 +23,24 @@ const Task: React.FC<TaskProps> = ({ task }) => {
     const [newPriority, setNewPriority] = useState<string>(task.priority);
     const [newDone, setNewDone] = useState<boolean>(task.done);
 
-    // Priority color mapping
-    const priorityColors: { [key: string]: string } = {
-      'High Priority': 'red',
-      'Normal Priority': 'orange',
-      'Low Priority': 'yellow',
-    };
-
+    // Determine the background color based on priority
+    const priorityColor = () => {
+        if (task.done) {
+          return 'bg-green-500'; // Green for done tasks
+        }
+      
+        switch (task.priority) {
+          case 'High Priority':
+            return 'bg-red-500'; // Red for high priority
+          case 'Normal Priority':
+            return 'bg-orange-500'; // Orange for normal priority
+          case 'Low Priority':
+            return 'bg-yellow-500'; // Yellow for low priority
+          default:
+            return 'bg-gray-300'; // Default to gray if priority is undefined
+        }
+      };
+      
     // Handle form submission for editing task
     const handleSubmitEditTodo: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
@@ -43,9 +54,9 @@ const Task: React.FC<TaskProps> = ({ task }) => {
         // Reset form and close modal after submission
         setTaskToEdit("");
         setNewTitle("");
-        setNewPriority("");
+        setNewPriority(newPriority);
         setOpenModalEdit(false);
-        setNewDone(false);
+        setNewDone(newDone);
         // Refresh the page using Next.js router
         router.refresh();
     };
@@ -75,92 +86,98 @@ const Task: React.FC<TaskProps> = ({ task }) => {
         router.refresh();
     };
 
+    // Determine the background color based on completion status
+    const completionColor = task.done ? 'bg-green-500' : 'bg-gray-300';
+
     return (
-          <tr key={task.id} className="rounded-lg">
-          {/* Task details */}
-          <td className="w-full">
-              {/* Display priority badge based on priority level */}
-              <p className={`text-xs badge ${priorityColors[newPriority.toLowerCase()]}`}>
-                  {task.priority}
-              </p>
-              {/* Display task title */}
-              <p className="text-lg font-bold">{task.title}</p>
-              {/* Display task description */}
-              {task.text}
-          </td>
+        <div className={`rounded-xl p-2 border mb-2 ${priorityColor()} ${completionColor}`}>
+            <tr key={task.id} className={` ${priorityColor()} ${completionColor}`}>
+            {/* Task details */}
+            <td className="w-full p-4">
+                <p className="text-xs">{task.priority}</p>
+                <p className="text-lg font-bold">{task.title}</p>
+                {task.text}
+            </td>
 
-          {/* Checkbox for marking task as done */}
-          <td>
-              <label className="inline-flex items-center">
-                  <input
-                      type="checkbox"
-                      className={`form-checkbox h-5 w-5 text-${newDone ? 'green' : 'blue'}-500 border-gray-300 rounded-full`}
-                      checked={newDone}
-                      onChange={handleDoneTask}
-                  />
-                  <span className="ml-2 text-gray-700"></span>
-              </label>
-          </td>
+            {/* Checkbox for marking task as done */}
+            <td>
+                <label className="inline-flex items-center">
+                    <input
+                    type="checkbox"
+                    className={`form-checkbox h-5 w-5 ${
+                        newDone ? 'text-green-500' : 'text-blue-500'
+                    } border-gray-300 rounded-full`}
+                    checked={newDone}
+                    onChange={handleDoneTask}
+                    />
+                    <span className="ml-2 text-gray-700"></span>
+                </label>
+            </td>
 
-          {/* Actions for editing and deleting tasks */}
-          <td className="gap-6 menu menu-horizontal">
-              {/* Edit button with modal */}
-              <FaEdit onClick={() => setOpenModalEdit(true)} cursor="pointer" size={25} />
-              {/* Modal for editing task */}
-              <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit}>
-                  {/* Form for editing task */}
-                  <form className="gap-4" onSubmit={handleSubmitEditTodo}>
-                    <h3 className="font-bold text-lg">Edit</h3>
-                    {/* Display priority options using PriorityOptions component */}
-                    <div>
-                      <PriorityOptions setPriority={setNewPriority} />
+
+            {/* Actions for editing and deleting tasks */}
+            <td className="gap-6 menu menu-horizontal">
+                {/* Edit button with modal */}
+                <FaEdit onClick={() => setOpenModalEdit(true)} cursor="pointer" size={25} />
+
+                {/* Modal for editing task */}
+                <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit}>
+                    {/* Form for editing task */}
+                    <form className="gap-4" onSubmit={handleSubmitEditTodo}>
+                        <h3 className="font-bold text-lg text-black text-center">Edit</h3>
+
+                        {/* Display priority options using PriorityOptions component */}
+                        <div className="mb-5">
+                            <PriorityOptions setPriority={setNewPriority} />
+                        </div>
+
+                        {/* Input for task title */}
+                        <div className="text-black mb-5">
+                            <p>Title</p>
+                            <input
+                                value={newTitle}
+                                onChange={(e) => setNewTitle(e.target.value)}
+                                type="title"
+                                placeholder="Type here"
+                                className="input input-bordered bg-white w-full"
+                            />
+                        </div>
+
+                        {/* Input for task description */}
+                        <div className="text-black mb-5">
+                            <p>Description</p>
+                            <input
+                                value={taskToEdit}
+                                onChange={(e) => setTaskToEdit(e.target.value)}
+                                type="text"
+                                placeholder="Type here"
+                                className="input input-bordered bg-white w-full"
+                            />
+                        </div>
+                        <div className="mb-5 flex justify-center items-center">
+                            {/* Submit button for editing task */}
+                            <button type="submit" className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Submit
+                            </button>
+                        </div>
+                    </form>
+                </Modal>
+
+                {/* Delete button with modal */}
+                <FaTrashAlt onClick={() => setOpenModalDeleted(true)} cursor="pointer" size={25} />
+                {/* Modal for deleting task */}
+                <Modal modalOpen={openModalDeleted} setModalOpen={setOpenModalDeleted}>
+                    <h3 className="text-lg text-black">Are you sure, you want to delete this task?</h3>
+                    {/* Delete confirmation button */}
+                    <div className="modal-action">
+                        <button onClick={() => handleDeleteTask(task.id)} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Yes
+                        </button>
                     </div>
-
-                    {/* Input for task title */}
-                    <div>
-                      <p>Title</p>
-                      <input
-                        value={newTitle}
-                        onChange={(e) => setNewTitle(e.target.value)}
-                        type="title"
-                        placeholder="Type here"
-                        className="input input-bordered "
-                      />
-                    </div>
-
-                    {/* Input for task description */}
-                    <div>
-                      <p>Description</p>
-                      <input
-                        value={taskToEdit}
-                        onChange={(e) => setTaskToEdit(e.target.value)}
-                        type="text"
-                        placeholder="Type here"
-                        className="input input-bordered "
-                      />
-                    </div>
-
-                    {/* Submit button for editing task */}
-                    <button type="submit" className="btn">
-                      Submit
-                    </button>
-                  </form>
-              </Modal>
-
-              {/* Delete button with modal */}
-              <FaTrashAlt onClick={() => setOpenModalDeleted(true)} cursor="pointer" size={25} />
-              {/* Modal for deleting task */}
-              <Modal modalOpen={openModalDeleted} setModalOpen={setOpenModalDeleted}>
-                  <h3 className="text-lg">Are you sure, you want to delete this task?</h3>
-                  {/* Delete confirmation button */}
-                  <div className="modal-action">
-                      <button onClick={() => handleDeleteTask(task.id)} className="btn">
-                          Yes
-                      </button>
-                  </div>
-              </Modal>
-          </td>
-      </tr>
+                </Modal>
+            </td>
+        </tr>
+    </div>
     );
 };
 

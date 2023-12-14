@@ -18,11 +18,11 @@ const TodoList: React.FC<TodoListProps> = ({ tasks }) => {
         {/* Table header for Todo Tasks */}
         <thead>
           <tr>
-            <th className="text-xl text-center">Todo Tasks</th>
+            <th className="text-xl text-center bg-slate-100 text-black border">Todo Tasks</th>
           </tr>
         </thead>
         {/* Table body for Todo Tasks */}
-        <tbody className="block border-none bg-rose-500 text-white">
+        <tbody className="block border-none text-white p-6 border bg-white">
             {/* Map through "Todo" tasks and render each Task component */}
             {todoTasks.map((task) => (
               <Task key={task.id} task={task} />
@@ -31,11 +31,11 @@ const TodoList: React.FC<TodoListProps> = ({ tasks }) => {
         {/* Table header for Done Tasks */}
         <thead>
           <tr>
-            <th className="text-xl text-center">Done Tasks</th>
+            <th className="text-xl text-center bg-slate-100 text-black border">Done Tasks</th>
           </tr>
         </thead>
         {/* Table body for Done Tasks */}
-        <tbody className="block border-none bg-green-500 text-white">
+        <tbody className="block border-none text-white p-6 border bg-white">
             {/* Map through "Done" tasks and render each Task component */}
             {doneTasks.map((task) => (
               <Task key={task.id} task={task} />
