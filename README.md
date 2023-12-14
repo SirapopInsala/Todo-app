@@ -2,6 +2,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 This app is not yet complete. There are still incomplete parts such as the function to check the priority and the function to check the task when it done. And I don't know how to use Hasura.
 
+***1.0 Update Notes on Dec 13 2023 10.47PM***
+-Can check the task when it done and the table is change to green but still have the problem.
+
 ## Getting Started
 
 First, run the development server:
