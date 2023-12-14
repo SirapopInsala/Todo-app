@@ -5,6 +5,9 @@ This app is not yet complete. There are still incomplete parts such as the funct
 ***1.0 Update Notes on Dec 13 2023 10.47PM***
 -Can check the task when it done and the table is change to green but still have the problem.
 
+***1.1 Update Notes on Dec 14 2023 10.55PM***
+-Colors can be divided according to the priority and update new interface but still have the problem.
+
 ## Getting Started
 
 First, run the development server:
